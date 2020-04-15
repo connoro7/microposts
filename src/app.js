@@ -11,6 +11,9 @@ document.addEventListener('DOMContentLoaded', getPosts)
 // Listen for submit post
 document.querySelector('.post-submit').addEventListener('click', submitPost)
 
+// Listen for delete post
+document.querySelector('#posts').addEventListener('click', deletePost)
+
 // GET posts from server
 function getPosts() {
   http
@@ -36,9 +39,31 @@ function submitPost() {
       ui.showAlert('Post added', 'alert alert-success')
       ui.clearFields()
       getPosts()
-      //   console.log('App Test - Submit Post: ', getPosts())
+      // Displays what getPosts is sending to the server
+      // console.log('App Test - Submit Post: ', getPosts())
     })
     .catch((err) => {
       console.log(err)
     })
+}
+
+function deletePost(e) {
+  e.preventDefault()
+  if (e.target.parentElement.classList.contains('delete')) {
+    const id = e.target.parentElement.dataset.id
+    if (confirm('Are you sure?')) {
+      // Displays the URL of the deleted item
+      // console.log(`App Test - Deleting item at: ${server}${fileName}/${id}`)
+      http
+        .delete(`${server}${fileName}/${id}`)
+
+        .then((data) => {
+          ui.showAlert('Post deleted', 'alert alert-success')
+          getPosts()
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    }
+  }
 }
