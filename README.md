@@ -31,6 +31,29 @@ Compile and build
 $ npm run build
 ```
 
+## Building a CRUD Application
+
+### Installation
+
+Install `json-server`
+
+Documentation for json-server is [available here](https://github.com/typicode/json-server).
+
+```sh
+$ npm install json-server --save
+# --save can be omitted if running npm version >= 5.0.0
+```
+
+### Serve
+
+Start JSON server
+
+```sh
+$ npm run json-server
+```
+
+### Build
+
 ### Author
 
 - **Connor Dillon** - _Developer_ - [connoro7](https://github.com/connoro7)
