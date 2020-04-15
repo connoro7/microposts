@@ -3,6 +3,7 @@
 ### Version 0.1.1
 
 A starter pack to build JavaScript applications using standards from ES2015, ES2016, and ES2017.
+
 Makes use of `webpack`, `Babel` and `webpack-dev-server` to compile and serve. It is fully compatible with `Async`/`Await` as it uses the Babel `polyfill`.
 
 ## Usage
@@ -31,7 +32,9 @@ Compile and build
 $ npm run build
 ```
 
-## Building a CRUD Application
+---
+
+## Adding API Functionality
 
 ### Installation
 
@@ -50,11 +53,12 @@ Start JSON server
 
 ```sh
 $ npm run json-server
+# Defaults to localhost:3000
 ```
 
 ### Build
 
-### Author
+## Author
 
 - **Connor Dillon** - _Developer_ - [connoro7](https://github.com/connoro7)
 
