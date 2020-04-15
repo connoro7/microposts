@@ -37,4 +37,4 @@ $ npm run build
 
 ### License
 
-This project is not currently licensed. Please contact the author for further information.
+This project is currently licensed under the MIT License.
