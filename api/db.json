@@ -1,9 +1,14 @@
 {
   "posts": [
     {
-      "title": "1",
-      "body": "123123",
+      "title": "afafe",
+      "body": "1254125",
       "id": 1
+    },
+    {
+      "title": "title",
+      "body": "body\n",
+      "id": 2
     }
   ]
 }

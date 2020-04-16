@@ -9,7 +9,7 @@ class UI {
   }
 
   showPosts(posts) {
-    // console.log('Test: UI-1', posts)
+    // console.log('UI Test - showPosts(): ', posts)
     let output = ''
     posts.forEach((post) => {
       output += `
@@ -65,6 +65,13 @@ class UI {
   clearFields() {
     this.titleInput.value = ''
     this.bodyInput.value = ''
+  }
+
+  // Fill form upon selecting "edit post"
+  fillForm(data) {
+    this.titleInput.value = data.title
+    this.bodyInput.value = data.body
+    this.idInput.value = data.id
   }
 }
 

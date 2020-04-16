@@ -14,6 +14,9 @@ document.querySelector('.post-submit').addEventListener('click', submitPost)
 // Listen for delete post
 document.querySelector('#posts').addEventListener('click', deletePost)
 
+// Listen for edit state
+document.querySelector('#posts').addEventListener('click', enableEdit)
+
 // GET posts from server
 function getPosts() {
   http
@@ -39,7 +42,7 @@ function submitPost() {
       ui.showAlert('Post added', 'alert alert-success')
       ui.clearFields()
       getPosts()
-      // Displays what getPosts is sending to the server
+      // Logs all data getPosts is sending to the server
       // console.log('App Test - Submit Post: ', getPosts())
     })
     .catch((err) => {
@@ -48,11 +51,10 @@ function submitPost() {
 }
 
 function deletePost(e) {
-  e.preventDefault()
   if (e.target.parentElement.classList.contains('delete')) {
     const id = e.target.parentElement.dataset.id
     if (confirm('Are you sure?')) {
-      // Displays the URL of the deleted item
+      // Logs the URL of the deleted item
       // console.log(`App Test - Deleting item at: ${server}${fileName}/${id}`)
       http
         .delete(`${server}${fileName}/${id}`)
@@ -66,4 +68,35 @@ function deletePost(e) {
         })
     }
   }
+  e.preventDefault()
+}
+
+// Enable Edit State
+function enableEdit(e) {
+  // Test: logs the click event target (works on all elements, so make sure to click in the correct spot)
+  // console.log('App Test - Event Target Element Is: ', e.target)
+  if (e.target.parentElement.classList.contains('edit')) {
+    // Test: logs the id assigned to the parent element containing each edit icon, to make sure we're targeting the correct element
+    // console.log('App Test - Dataset ID#: ', e.target.parentElement.dataset.id)
+    const id = e.target.parentElement.dataset.id
+
+    // Test: DOM traversal to find the correct element
+    // console.log('Target parentElement: ', e.target.parentElement)
+    // console.log('Target previousElementSibling: ', e.target.parentElement.previousElementSibling)
+    // console.log('Target previousElementSibling textContent: ', e.target.parentElement.previousElementSibling.textContent) // Gives us the correct body content for the clicked element
+    const body = e.target.parentElement.previousElementSibling.textContent
+
+    // console.log('Target previousElementSibling previousElementSibling textContent: ', e.target.parentElement.previousElementSibling.previousElementSibling.textContent) // Gives us the correct title content for the clicked element
+    const title = e.target.parentElement.previousElementSibling.previousElementSibling.textContent
+
+    const data = {
+      id,
+      title,
+      body,
+    }
+
+    // Fill form with selected post for editing
+    ui.fillForm(data)
+  }
+  e.preventDefault()
 }
