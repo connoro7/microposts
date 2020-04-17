@@ -4,7 +4,7 @@ class UI {
     this.titleInput = document.querySelector('#title')
     this.bodyInput = document.querySelector('#body')
     this.idInput = document.querySelector('#id')
-    this.postSubmit = document.querySelector('#post-submit')
+    this.postSubmit = document.querySelector('.post-submit')
     this.forState = 'add'
   }
 
@@ -72,6 +72,48 @@ class UI {
     this.titleInput.value = data.title
     this.bodyInput.value = data.body
     this.idInput.value = data.id
+
+    this.changeFormState('edit')
+  }
+
+  // CLear ID hidden value
+  clearIdInput() {
+    this.idInput.value = ''
+  }
+
+  // Change the form state
+  changeFormState(type) {
+    if (type === 'edit') {
+      this.postSubmit.textContent = 'Update Post'
+      this.postSubmit.className = 'post-submit btn btn-warning btn-block'
+
+      // Create cancel button
+      // & BUG: clicking edit icon more than once generates multiple "Cancel Edit" buttons
+      // & FIX? if cancel button exists, do: forEach{doc.QS(edit-btn).remove()}
+      const button = document.createElement('button')
+      button.className = 'post-cancel btn btn-light btn-block'
+      button.appendChild(document.createTextNode('Cancel Edit'))
+
+      // Get Parent element for cancel button
+      const cardForm = document.querySelector('.card-form')
+      // Get element to insert before
+      const formEnd = document.querySelector('.form-end')
+      // Insert cancel button
+      cardForm.insertBefore(button, formEnd)
+    } else {
+      this.postSubmit.textContent = 'Post It'
+      this.postSubmit.className = 'post-submit btn btn-primary btn-block'
+
+      // Remove cancel button if it exists
+      if (document.querySelector('.post-cancel')) {
+        document.querySelector('.post-cancel').remove()
+      }
+
+      // Clear ID from hidden field
+      this.clearIdInput()
+      // Clear form fields
+      this.clearFields()
+    }
   }
 }
 

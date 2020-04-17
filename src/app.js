@@ -17,6 +17,9 @@ document.querySelector('#posts').addEventListener('click', deletePost)
 // Listen for edit state
 document.querySelector('#posts').addEventListener('click', enableEdit)
 
+// Listen for cancel
+document.querySelector('.card-form').addEventListener('click', cancelEdit)
+
 // GET posts from server
 function getPosts() {
   http
@@ -29,25 +32,50 @@ function getPosts() {
 function submitPost() {
   const title = document.querySelector('#title').value
   const body = document.querySelector('#body').value
+  const id = document.querySelector('#id').value
 
   const data = {
     title,
     body,
   }
 
-  // Create POST request
-  http
-    .post(server + fileName, data)
-    .then((data) => {
-      ui.showAlert('Post added', 'alert alert-success')
-      ui.clearFields()
-      getPosts()
-      // Logs all data getPosts is sending to the server
-      // console.log('App Test - Submit Post: ', getPosts())
-    })
-    .catch((err) => {
-      console.log(err)
-    })
+  // Input validation
+  if (title === '' || body === '') {
+    ui.showAlert('Please fill in all fields', 'alert alert-danger')
+  } else {
+    // Check for existing post ID: if yes, then edit. If no, then create new post
+    if (id === '') {
+      console.log(`Updating Post 1: ${server}${fileName}`)
+      // Create post
+      http
+        .post(server + fileName, data)
+        .then((data) => {
+          ui.showAlert('Post added', 'alert alert-success')
+          ui.clearFields()
+          getPosts()
+          // Logs all data getPosts is sending to the server
+          // console.log('App Test - Submit Post: ', getPosts())
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    } else {
+      // Update post
+      console.log(`Updating Post 2: ${server}${fileName}/${id}`)
+      http
+        .put(`${server}${fileName}/${id}`, data)
+        .then((data) => {
+          ui.showAlert('Post updated', 'alert alert-success')
+          ui.changeFormState('add')
+          getPosts()
+          // Logs all data getPosts is sending to the server
+          // console.log('App Test - Update Post: ', getPosts())
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    }
+  }
 }
 
 function deletePost(e) {
@@ -58,7 +86,6 @@ function deletePost(e) {
       // console.log(`App Test - Deleting item at: ${server}${fileName}/${id}`)
       http
         .delete(`${server}${fileName}/${id}`)
-
         .then((data) => {
           ui.showAlert('Post deleted', 'alert alert-success')
           getPosts()
@@ -97,6 +124,14 @@ function enableEdit(e) {
 
     // Fill form with selected post for editing
     ui.fillForm(data)
+  }
+  e.preventDefault()
+}
+
+// Cancel Edit state
+function cancelEdit(e) {
+  if (e.target.classList.contains('post-cancel')) {
+    ui.changeFormState('add')
   }
   e.preventDefault()
 }
