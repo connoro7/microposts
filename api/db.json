@@ -1,9 +1,3 @@
 {
-  "posts": [
-    {
-      "title": "title123",
-      "body": "body",
-      "id": 2
-    }
-  ]
+  "posts": []
 }
